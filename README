@@ -1,0 +1,573 @@
+###############
+# Satisfiable #
+###############
+
+Checks the satisfiability of a propositional logic sentence.
+
+##############
+# Functions  #
+##############
+
+    1. check-if-sentence-is-true(clauses, model)
+	Summary
+    		Check if every clause in a list is true
+
+	Parameters
+		clauses - A list of lists.  Each list corresponds to a clause.
+		
+		model - An associative array containing symbols that have been 			
+				assigned and their value.
+
+	Return Value
+    		Returns true or false if every clause in clauses is true.
+
+
+#################################################
+
+    2. check-if-sentence-is-false(clauses, model)
+	Summary
+    		Check if some clause in a list is false
+
+	Parameters
+		clauses - A list of lists.  Each list corresponds to a clause.
+		
+		model - An associative array containing symbols that have been 			
+				assigned and their value.
+
+	Return Value
+    		Returns true or false if some clause in clauses is false.
+
+
+
+#################################################
+
+	3. find-pure-symbol(symbols, clauses, model)
+	Summary
+		Search symbols for a pure symbol.
+
+	Parameters
+		symbols - a list of symbols that exist in the sentence.
+		
+		clauses - A list of lists.  Each list corresponds to a clause.
+		
+		model - An associative array containing symbols that have been
+				assigned and their value.
+
+	Return Value
+		Returns a pure symbol or false.
+
+
+#################################################
+	
+	4. find-unit-clause(clauses, model)
+	Summary
+		Search clauses for a unit-clause.
+
+	Parameters
+		clauses - A list of lists.  Each list corresponds to a clause.
+		
+		model - An associative array containing symbols that have been
+				assigned and their value.
+
+	Return Value
+		Returns a unit-clause or false.
+		
+
+#################################################
+	
+	5. print-hash-entry(key, value)
+	Summary
+		Prints the key and value of an entry in a hash table.
+
+	Parameters
+		key - the key of the associated hash entry.
+		
+		value - the value of the associated hash entry.
+
+	Return Value
+		Prints a string.
+		
+
+#################################################
+	
+	6. list-member(element my-list) 
+	Summary
+        Checks if element is a member of my-list.  Also works if element is a list.
+
+	Parameters
+        element - the element that is being looked for.
+		
+        my-list - the list that is being searched.
+
+	Return Value
+	    t if element is a member of my-list. Nil otherwise.	
+
+#################################################
+	
+	7. collect-literals(sentence &optional (literals)) 
+	Summary
+        Returns a list of all the symbols in a given sentence (no duplicates).
+
+	Parameters
+        sentence - the sentence that is being processed.
+		
+        literals - optional parameter holds the current list of literals(symbols).
+
+	Return Value
+        A list of symbols in the given sentence.
+
+#################################################
+	
+	8. collect-clauses(sentence) 
+	Summary
+        Returns a sentence (list) with the "ands" and "ors" removed.  This makes the
+        sentence easier to process in the future because the "ands" and "ors" 
+        are implied.
+
+	Parameters
+        sentence - the sentence that is being processed.
+		
+	Return Value
+        A list of clauses.
+
+#################################################
+	
+    9. remove-nil-recursively (x)
+	Summary
+        Removes all the "NILS" from a possibly nested list.
+        Reference: http://stackoverflow.com/questions/3967320/lisp-function-to-remove-nils
+	Parameters
+        x - list that is being processed. 
+		
+	Return Value
+        The list x with all the "NILS" removed.
+
+#################################################
+	
+    10. remove2 (element my-list)
+	Summary
+        Removes every occurence of element from my-list.  Also works if element 
+        is a list.
+
+	Parameters
+        element - element to be removed.
+
+        my-list - the list to be processed.
+		
+	Return Value
+        my-list with every occurence of element removed.
+
+#################################################
+	
+    11. extend (element value hash)
+	Summary
+        Returns a hash table with "element"=>"value" added to it.
+
+	Parameters
+        element - element to be added.
+
+        value - value of element.
+
+        hash - the hash table in which you are adding element.
+		
+	Return Value
+        A hash table with a new element added to it.
+
+#################################################
+	
+    12. remove-all-positive-occurences (element my-list)
+	Summary
+        Returns a list in which every positive (not negated) occurence of element
+        is removed.  ie. "(not element)" isn't removed, but "element" is.
+
+	Parameters
+        element - element to be removed.
+
+        my-list - list to be cleaned.
+		
+	Return Value
+        my-list with every postive occurence of element removed.
+
+#################################################
+	
+    13. remove-all-negative-occurences (element my-list)
+	Summary
+        Returns a list in which every negative (negated) occurence of element
+        is removed.  ie. "(not element)" is removed, but "element" isn't.
+
+	Parameters
+        element - element to be removed.
+
+        my-list - list to be cleaned.
+		
+	Return Value
+        my-list with every negative occurence of element removed.
+
+#################################################
+	
+    14. find-unit-clause-helper (clauses model)
+	Summary
+        a helper function for find-unit-clause. This is where most of the unit
+        clause finding actually happens.
+
+	Parameters
+        clauses - list of clauses.
+
+        model - a hash table of the current T and F assignments.
+		
+	Return Value
+        a unit clause.
+
+#################################################
+	
+    15. check-if-clause-is-true (clause model) 
+	Summary
+        Determines if a given clause is true in the current model.
+
+	Parameters
+        clauses - list of clauses.
+
+        model - a hash table of the current T and F assignments.
+		
+	Return Value
+        t if the clause is true, nil if it's false or undecided.
+
+#################################################
+	
+    16. check-if-clause-is-false (clause model) 
+	Summary
+        Determines if a given clause is false in the current model.
+
+	Parameters
+        clauses - list of clauses.
+
+        model - a hash table of the current T and F assignments.
+		
+	Return Value
+        t if the clause is false, nil if it's true or undecided.
+
+#################################################
+	
+    17. remove-true-clauses (clauses model &optional untrue-clauses) 
+	Summary
+        Returns clauses without any clauses that are already satisfied.
+
+	Parameters
+        clauses - list of clauses.
+
+        model - a hash table of the current T and F assignments.
+
+        untrue-clauses - a list that holds the leftover clauses.
+		
+	Return Value
+        A list of clauses that haven't yet been satisfied by the given model.
+
+#################################################
+	
+    18. find-pure-symbol-helper (symbols) 
+	Summary
+        A helper function for find-pure-symbol.
+
+	Parameters
+        symbols - a list of symbols.
+
+	Return Value
+        The first pure symbol found.
+
+#################################################
+	
+    19. translate-hash-to-binding-list (hash) 
+	Summary
+        Translates a hash table into a binding list.
+        ie. (A=>"T" B=>"F") becomes ((A T) (B NIL)).
+
+	Parameters
+        hash - a hash table to translate.
+
+	Return Value
+        The newly created binding-list.
+
+
+#################################################
+	
+    20. dpll (clauses symbols model)
+	Summary
+        dpll algorithm for satisfiability.  Checks for satisfiability and returns
+        a model or NIL.  For more explanation see supplied pseudocode.
+
+	Parameters
+        clauses - a list of clauses.
+
+        symbols - a list of symbols contained in clauses.
+
+        model - a hash table holding the current T and F assignments of symbols.
+
+	Return Value
+        Returns a model if satisfiable, otherwise NIL.
+
+#################################################
+	
+    21. satisfiable (sentence)
+	Summary
+        Determines if "sentence" is satisfiable.
+
+	Parameters
+        sentence - a propositional logic sentence.
+
+	Return Value
+        Returns a model if satisfiable, otherwise NIL.
+
+###############################################################################################
+
+
+#################
+# Sudoku Solver #
+#################
+
+Translates a sudoku puzzle into a propositional logic sentence, then uses the satisfiability solver to solve the puzzle.
+
+#############
+# Functions #
+#############
+
+    1. flatten(list)
+        Summary
+            Flattens all nested lists into a single list.
+        Parameters
+            list - the list you wish to flatten.
+        Return Value
+            Returns your flattened list.
+
+    2. get-row(n puzzle) 
+        Summary
+            Returns the nth row of a sudoku puzzle.
+        Parameters
+            n - the row number you wish to return.
+            puzzle - the sudoku puzzle
+
+        Return Value
+            Returns the nth row of the given puzzle.
+
+    3. get-col(n puzzle)
+        Summary
+            Returns nth column of a sudoku puzzle.
+        Parameters
+            n - the col number you wish to return.
+            puzzle - the sudoku puzzle
+        Return Value
+            Returns the nth col of the given puzzle.
+                                                                        
+    4. get-block(row col puzzle)
+        Summary
+            Returns the 3x3 block the element in row/col belongs to.
+        Parameters
+            row - the row of the element you wish to return the block of.
+            col - the col of the element you wish to return the block of.
+            puzzle - the sudoku puzzle.
+        Return Value
+            Returns a list of values that are part of the block.
+
+    5. encode(row col num) 
+        Summary
+            Encodes a row/col/num into our sudoku encoding. Example: row:1 col:2 num:5 is encoded as 125.
+        Parameters
+            row - the row of the element you're encoding.   
+            col - the col of the element you're encoding.
+            num - the number of the element you're encoding.
+        Return Value
+            Returns our newly encoded element.
+
+    6. encode-list (lst) 
+        Summary
+            Works like encode, but the supplied element is a list in the form (row col num).
+        Parameters
+            lst - the list that is being encoded.
+        Return Value
+            Returns our newly encoded element.
+
+    7. linked-elements-row-helper (element &optional current-row)
+        Summary
+            Given the current element, it creates a list of all the elements that would be in the same row.  Example: given '123, it returns (223 323 423 523 623 723 823 923)
+        Parameters
+            element - the element for which you'd like to return the linked row.
+            current-row - optional parameter, determines what row the function is currently processing.
+        Return Value
+            A list of elements in the same row as the given element.
+
+    8. linked-elements-col-helper (element &optional current-col) 
+        Summary
+            Returns a list of all the elements in the same col as the given element.  Example: given '123 it returns (113 133 143 153 163 173 183 193)
+        Parameters
+            element - the element for which you'd like to return the linked col.
+            current-col - optional parameter, determines what col the function is currently processing.
+        Return Value
+            A list of elements in the same col as the given element.
+
+    9. linked-elements-block-helper (element)
+        Summary
+            Returns a list of all the elements in the same 3x3 Blocks as the given element.
+        Parameters
+            element - the element for which you'd like to return the linked block elements. 
+        Return Value
+            A list of all the elements in the same block as the given element.
+
+    10. convert-to-row-col-num (element) 
+        Summary
+            Converts an encoded element into a list for easy processing.  Example: element 123 becomes list (1 2 3).
+        Parameters
+            element - the encoded element to be converted.
+        Return Value
+            A list of the encoded element.
+
+    11. get-linked-elements (element) 
+        Summary
+            Returns a list of all the elements linked to a given element.  That is to say, every element in the same row, column or 3x3 block as the given element.
+        Parameters
+            element - the encoded element to be used to get all linked elements.
+        Return Value
+            A list of all linked elements to the given element.
+
+    12. get-linked-row-elements (element)
+        Summary
+            Works like get-linked-elements, but only returns those which are in the same row.
+        Parameters
+            element - the encoded element to use when getting linked row elements.
+        Return Value
+            A list of all linked row elements.
+
+    13. get-linked-col-elements (element)
+        Summary
+            Works like get-linked-elements, but only returns those which are in the same column.
+        Parameters
+            element - the encoded element to use when getting linked col elements.
+        Return Value
+            A list of all linked col elements.
+
+    14. get-linked-block-elements (element)
+        Summary
+            Works like get-linked-elements, but only returns those which are in the same 3x3 block.
+        Parameters
+            element - the encoded element to use when getting linked block elements.
+        Return Value
+            A list of all linked block elements.
+
+    15. row-col-to-or-clause (row col &optional num used-numbers)
+        Summary
+            Returns an OR clause made of every possible number in the given row/col cell, minus any numbers that aren't possible (as determined by pre-filled cells).
+        Parameters
+            row - the row of the current cell.
+            col - the col of the current cell.
+            num - optional, the current number which is being processed.
+            used-numbers -  optional, a list of numbers which couldn't possibly be in the current cell (as determined by other pre-filled cells).   
+        Return Value
+            An OR clause for every possible number that could go in the given cell.
+
+    16. sudoku-to-cnf (puzzle) 
+        Summary
+            Converts a sudoku puzzle to cnf form.
+        Parameters
+            puzzle - a sudoku puzzle.
+        Return Value
+            A CNF sentence which is used to solve the given sudoku puzzle.
+
+    17. xor-cells (lst) 
+        Summary
+            Given a list of OR clauses, this function creates the necessary clauses to make sure that exactly one of these can be true at a time. This is further explained in the Report section.
+        Parameters
+            lst - a list of clauses to xor.
+        Return Value
+            A list of clauses, which when appended to the original list make it so only one value from each OR clause can be true.
+
+    18. xor-linked-elements (lst &optional full-lst) 
+        Summary
+            Given a list of OR clauses, this function will traverse over each symbol and create a series of clauses ensuring that only one number will appear in each row, column and block. This is further explained in the Report section.
+        Parameters
+            lst - a list of clauses to XOR each linked element from.
+            full-lst - this list is used to make sure that you only xor elements which are part of your original series of clauses. That is to say, you won't negate a symbol which does not appear in the original clauses. If this parameter is left blank, it will default to the lst parameter.
+        Return Value
+            A list of clauses, which when appended to the original list make it so exactly one number in each row, col and block can be set to true.
+
+    19. xor-linked-elements-helper (element lst) 
+        Summary
+            A helper function for the previous function.
+        Parameters
+            element - The current element to be processed.
+            lst - The entire list of clauses, used to determine which elements must be XOR’d.
+        Return Value
+            A list of clauses.
+
+    20. xor-clause (lst) 
+        Summary
+            Given a lst of symbols, this will return the necessary clauses so that exactly one of those symbols will be true.
+        Parameters
+            lst - list of symbols to XOR.
+        Return Value
+            A list of clauses which can be appended to the original list of clauses to XOR each element in the first list.
+
+    21. xor-clause-helper (element-one, element-two)
+        Summary
+            A helper for the previous function. Given two elements, this functions creates a clause in the form: (OR (NOT element-one) (NOT element-two))
+        Parameters
+            element-one, element-two - two elements to create a clause for.
+        Return Value
+            A list containing an OR clause which can be used to XOR the original two elements.
+
+    22. finalize-cnf (lst) 
+        Summary
+            Given a list of OR clauses created from a sudoku puzzle, this will append a series of clauses so that only one number will appear in each row, column, block and cell.
+        Parameters
+            lst - a CNF list of clauses created from a sudoku puzzle.
+        Return Value
+            A finalized CNF sentence to be solved.
+
+    23. sudoku-to-cnf-helper (puzzle)
+        Summary
+            A helper function for the sudoku-to-cnf function.
+            See sudoku-to-cnf (16).
+
+    24. range (start end lst)
+        Summary
+            Returns a list of the elements between start and end in the given list.
+        Parameters
+            start - the starting point of the range.
+            end - the end point of the range.
+            lst - the lst from which you are getting the range.
+        Return Value
+            A list of elements between start and end in the given list.
+
+    25. get-sudoku-values (model) 
+        Summary
+            Returns a sorted list of all the elements in model which were assigned true. That is to say, all the elements in the form (SYMBOL T). These correspond to where each number belongs in the sudoku puzzle.
+        Parameters
+            model - a list of bindings for each symbol as solved by our satisfiability solver.
+        Return Value
+            A sorted list of elements.
+
+    26. decode-row (row)
+        Summary
+            Returns the number value of every encoded element in a given row. That is to say, encoded elements are in the form ###, where the last # is the number.  This returns a list of said numbers for a given row.
+        Parameters
+            row - the row to decode.
+        Return Value
+            A list of numbers for the given row.
+
+    27. translate-model-to-sudoku (model) 
+        Summary
+            Translates a model (list of T and F bindings for symbols) into the original sudoku form.
+        Parameters
+            model - the list of bindings as given by our satisfiability solver.
+        Return Value
+            A list of nested lists which correspond to a sudoku puzzle.
+
+    28. translate-model-to-sudoku-helper
+        Summary
+            A helper function for translate-model-to-sudoku.
+            See translate-model-to-sudoku (27).
+
+    29. solve-sudoku-puzzle (puzzle)
+        Summary
+            Translates the puzzle to cnf, runs the satisfiability solver on it, and, translates the result back into a solved sudoku puzzle.
+        Parameters
+            puzzle - A list that represents an unsolved sudoku puzzle.
+        Return Value
+            A list which represents a solved sudoku puzzle.
